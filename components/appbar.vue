@@ -4,8 +4,13 @@
 
       <v-app-bar-nav-icon v-if="nav || userNav"></v-app-bar-nav-icon>
 
-      <v-btn text @click="goToFeed">
-        <v-toolbar-title><b><i>Pubcoasters</i></b></v-toolbar-title>
+      <v-btn text @click="goToFeed" class="ml-2">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on: onToolTip }">
+                <v-toolbar-title v-on="{ ...onToolTip }"><b><i>Pubcoasters</i></b></v-toolbar-title>
+            </template>
+            <span>Check out your feed to see your followers' posts</span>
+          </v-tooltip>
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -121,7 +126,6 @@
 import { ref, defineComponent} from '@nuxtjs/composition-api';
 import navdrawer from '~/components/navdrawer.vue';
 import userdrawer from '~/components/userdrawer.vue';
-
 export default defineComponent({
   components: { navdrawer, userdrawer },
   name: "AppBar",
@@ -175,5 +179,4 @@ export default defineComponent({
 </script>
 
 <style>
-
 </style>
