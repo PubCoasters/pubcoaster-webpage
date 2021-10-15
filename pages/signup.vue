@@ -32,6 +32,12 @@
        class="field"
        @keypress.enter="signUp"
       ></v-text-field>
+      <v-checkbox
+        v-model="agreed"
+        label="By signing up, you agree to our Terms and certify that you 21 years old or older"
+        class="field"
+      ></v-checkbox>
+      <a href="https://docs.google.com/document/d/1zPH2uDM0yCxCzCIp_wlMISzH5rhmNsosBRXAsSzubnU/edit">Terms of Use</a>
       <div class="sign-up">
         <v-btn @click="signUp" color="red">Sign Up</v-btn>
       </div>
@@ -63,6 +69,7 @@ export default defineComponent({
     const snackFail = ref(false);
     const snackText = ref('');
     const snackSuccess = ref(false);
+    const agreed = ref(false);
     function signIn(this: any) {
       this.$router.push('/signin');
     }
@@ -93,7 +100,7 @@ export default defineComponent({
         }
       }
     }
-    return { email, password, confirm, signIn, signUp, snackFail, snackText, snackSuccess };
+    return { email, password, confirm, signIn, signUp, snackFail, snackText, snackSuccess, agreed };
   }
 });
 </script>
