@@ -32,7 +32,10 @@
           Back to {{location}} Posts
         </v-btn>
         <v-btn @click="google" color="red" class="ml-8 mt-5 mb-4">
-          Check Google
+          Open Google Search
+        </v-btn>
+         <v-btn @click="googleMaps" color="red" class="ml-8 mt-5 mb-4">
+          Open Google Maps
         </v-btn>
         <v-btn @click="pubcoasters" color="red" class="mr-8 mt-5 mb-4">
           Check Pubcoasters
@@ -101,7 +104,7 @@ export default defineComponent({
     }
 
     async function google(this: any) {
-      if (bar.value == null || bar.value == '') {
+     if (bar.value == null || bar.value == ''|| location.value == null || location.value == '') {
         this.snackText = 'Please fill out all required fields before submitting the form.';
         this.snackFail = true;
       } else {
@@ -110,16 +113,34 @@ export default defineComponent({
           .map((s: string) => s.charAt(0).toUpperCase() + s.substring(1))
           .join(' ');
         if (neighborhood.value == '' || neighborhood.value == null) {
-          window.open(`http://google.com/search?q=${location.value}+${bar.value}`);
+          window.open(`http://google.com/search?q=${location.value}+${bar.value}+bar`);
         } else {
-          window.open(`http://google.com/search?q=${location.value}+${bar.value}+${neighborhood.value}`);
+          window.open(`http://google.com/search?q=${location.value}+${bar.value}+${neighborhood.value}+bar`);
+        }
+        this.$router.push(`/busyfeedback/${location.value + '-' + bar.value + '-' + neighborhood.value}`);
+      }
+    }
+
+    async function googleMaps(this: any) {
+     if (bar.value == null || bar.value == ''|| location.value == null || location.value == '') {
+        this.snackText = 'Please fill out all required fields before submitting the form.';
+        this.snackFail = true;
+      } else {
+        this.bar = this.bar.toLowerCase()
+          .split(' ')
+          .map((s: string) => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(' ');
+        if (neighborhood.value == '' || neighborhood.value == null) {
+          window.open(`http://google.com/maps/search/${location.value}+${bar.value}+bar`);
+        } else {
+          window.open(`http://google.com/maps/search/${location.value}+${bar.value}+${neighborhood.value}+bar`);
         }
         this.$router.push(`/busyfeedback/${location.value + '-' + bar.value + '-' + neighborhood.value}`);
       }
     }
 
     async function pubcoasters(this: any) {
-      if (bar.value == null || bar.value == '') {
+     if (bar.value == null || bar.value == ''|| location.value == null || location.value == '') {
         this.snackText = 'Please fill out all required fields before submitting the form.';
         this.snackFail = true;
       } else {
@@ -150,7 +171,7 @@ export default defineComponent({
     }
 
     return { user, neighborhood, cancel,
-    snackFail, snackText, snackSuccess, bar, spinner, dialog,
+    snackFail, snackText, snackSuccess, bar, spinner, dialog, googleMaps,
     pubcoasters, google, location, pubcoasters_busyness_live, pubcoasters_busyness_avg };
   },
   fetchOnServer: false,
