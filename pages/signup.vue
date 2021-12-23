@@ -37,7 +37,7 @@
         label="By signing up, you agree to our Terms and certify that you 21 years old or older"
         class="field"
       ></v-checkbox>
-      <a href="https://docs.google.com/document/d/1zPH2uDM0yCxCzCIp_wlMISzH5rhmNsosBRXAsSzubnU/edit">Terms of Use</a>
+      <a class="field link" href="https://docs.google.com/document/d/1zPH2uDM0yCxCzCIp_wlMISzH5rhmNsosBRXAsSzubnU/edit">Terms of Use</a>
       <div class="sign-up">
         <v-btn @click="signUp" color="red">Sign Up</v-btn>
       </div>
@@ -134,7 +134,7 @@ export default defineComponent({
   }
   .sign-up {
     text-align: center;
-    margin-top: .1em;
+    margin-top: 1.1em;
     margin-bottom: .8em;
   }
   .snack {
@@ -144,5 +144,9 @@ export default defineComponent({
     color: white;
     text-align: center;
     font-style: italic;
+  }
+  .link {
+    color: white !important;
+    display: flex;
   }
 </style>
