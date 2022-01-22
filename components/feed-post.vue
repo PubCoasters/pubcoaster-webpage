@@ -120,6 +120,8 @@ export default defineComponent({
     }
     .title {
         margin: .5rem;
+        margin-top: auto;
+        margin-bottom: auto;
     }
     .busyness {
         font-size: 1.5rem;

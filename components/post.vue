@@ -286,6 +286,8 @@ export default defineComponent({
     }
     .title {
         margin: .7rem;
+        margin-top: auto;
+        margin-bottom: auto;
     }
     .middle {
         margin: .5rem;
