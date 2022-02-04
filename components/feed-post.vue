@@ -7,6 +7,7 @@
             </v-col>
             <v-spacer> </v-spacer>
             <v-col align="right" class="title">
+                <reportpost :uuid="response['uuid']"></reportpost>
                 <h3>Rating: {{response['rating']}} / 10</h3>
             </v-col>
         </v-row>
@@ -34,7 +35,7 @@
             </v-col>
             <v-col v-else align="right" class="middle">{{response['numLikes']}} likes </v-col>
         </v-row>
-        <v-row v-if="response['busyness']"> 
+        <v-row v-if="response['busyness']">
             <v-col align="middle" class="busyness">
                 <b>Busyness Level: </b>{{response['busyness']}}
             </v-col>
@@ -65,8 +66,11 @@
 <script lang='ts'>
 import { ref, computed, defineComponent} from '@nuxtjs/composition-api';
 import moment from 'moment';
+import reportpost from './reportpost.vue';
+
 
 export default defineComponent({
+  components: { reportpost },
   name: "feedpost",
   props: {
     response: {
@@ -116,6 +120,8 @@ export default defineComponent({
     }
     .title {
         margin: .5rem;
+        margin-top: auto;
+        margin-bottom: auto;
     }
     .busyness {
         font-size: 1.5rem;

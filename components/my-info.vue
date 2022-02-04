@@ -34,7 +34,7 @@
         </v-col>
         <v-col class="edits-false" v-if="!editInfo">
             <v-row>
-                <v-btn color="red" large class="delete" @click="deleteAccount">Delete Account</v-btn>
+                <v-btn color="red" large class="delete" @click="deleteAccountDialog = true; deleteAccountFirst = true;">Delete Account</v-btn>
             </v-row>
             <v-row>
                 <v-btn color="primary" large class="edit" @click="editInfo=true">Edit</v-btn>
@@ -205,6 +205,17 @@
                 <h3 class="no-follow">No Following :/</h3>
             </v-card>
         </v-dialog>
+        <v-dialog data-app v-model="deleteAccountDialog" width="500">
+            <v-card color="white" class="delete-dialogs">
+                <h1 class="header" v-if="deleteAccountFirst">Are you sure you want to delete your account?</h1>
+                <h1 class="header" v-if="deleteAccountSecond">Are you surely sure you actually want to delete your account?</h1>
+                <h1 class="header" v-if="deleteAccountThird">For real this time, do you want to go through with deleting your account?</h1>
+                <v-row class="button-row">
+                    <v-btn color="red" x-large @click="toggleDeletes" icon class="delete-button"><v-icon>mdi-checkbox-marked-circle</v-icon></v-btn>
+                    <v-btn color="red" x-large icon @click="turnOffDeletes" class="delete-button"><v-icon>mdi-window-close</v-icon></v-btn>
+                </v-row>
+            </v-card>
+        </v-dialog>
         </client-only>
     </div>
 </template>
@@ -240,7 +251,36 @@ export default defineComponent({
     const followingDialog = ref(false);
     const followerInformation = ref([]);
     const followingInformation = ref([]);
+    const deleteAccountFirst = ref(false);
+    const deleteAccountSecond = ref(false);
+    const deleteAccountThird = ref(false);
+    const deleteAccountActually = ref(false);
+    const deleteAccountDialog = ref(false);
+
     const offset = ref(1);
+
+    function toggleDeletes(this: any) {
+        if (this.deleteAccountFirst) {
+            this.deleteAccountFirst = false;
+            this.deleteAccountSecond = true;
+        } else if (this.deleteAccountSecond) {
+            this.deleteAccountSecond = false;
+            this.deleteAccountThird = true;
+        } else if (this.deleteAccountThird) {
+            this.deleteAccountThird = false;
+            this.deleteAccountDialog = false;
+            this.deleteAccountActually = true;     
+            this.deleteAccount();   
+        }
+    }
+
+    function turnOffDeletes(this: any) {
+        this.deleteAccountFirst = false;
+        this.deleteAccountSecond = false;
+        this.deleteAccountThird = false;
+        this.deleteAccountActually = false;
+        this.deleteAccountDialog = false;
+    }
 
     function goToUserLikedBars(this: any) {
         this.$router.push(`/mylikeditems/bar`);
@@ -256,7 +296,7 @@ export default defineComponent({
         alert('Just look down dummy!!');
     }
     async function deleteAccount(this: any) {
-        if(confirm('Are you sure you want to delete your account?')) {
+        if (deleteAccountActually) {
           try {
             const username = this.$store.state.user.displayName;
             const token = await this.$fire.auth.currentUser.getIdToken();
@@ -396,7 +436,7 @@ export default defineComponent({
     }
 
 
-    return { followAccount, editInfo, editedFirstName, editedBio, cancelEdit, saveEdit, editedLastName, picFile, filePicked, snackText, snackFail, snackSuccess, deleteAccount, dummy, uploading, goToUserLikedBars, goToUserLikedDrinks, goToUserLikedBrands, followerDialog, followingDialog, followerInformation, followingInformation, offset, infinteScroll, unfollowAccount }
+    return { followAccount, deleteAccountDialog, deleteAccountFirst, deleteAccountSecond, deleteAccountThird, deleteAccountActually, editInfo, editedFirstName, editedBio, cancelEdit, saveEdit, editedLastName, picFile, filePicked, snackText, snackFail, snackSuccess, deleteAccount, dummy, uploading, goToUserLikedBars, goToUserLikedDrinks, goToUserLikedBrands, followerDialog, followingDialog, followerInformation, followingInformation, offset, infinteScroll, unfollowAccount, toggleDeletes, turnOffDeletes }
   },
    async fetch(this: any) {
     try {
@@ -448,6 +488,11 @@ export default defineComponent({
         color: black;
         margin-top: 2px;
     }
+    .button-row {
+        display: flex;
+        justify-content: center;
+        margin: 1em 0em;
+    }
     .follow-person {
        padding-top: 10px;
        padding-bottom: 10px;
@@ -461,7 +506,17 @@ export default defineComponent({
     .follower-dialog, .following-dialog {
         height: 26.5em;
     }
-    .follower-dialog .header, .following-dialog .header, .no-follow-header {
+    .delete-dialogs {
+        height: 11.5em;
+    }
+    .delete-button {
+        margin: 0 1em;
+    }
+    .delete-dialogs .header {
+        font-size: 1.6em;
+        margin: 0 1.5em;
+    }
+    .follower-dialog .header, .following-dialog .header, .no-follow-header, .delete-dialogs .header {
         font-family: fantasy;
         text-decoration: underline;
         color: black;

@@ -269,6 +269,8 @@ export default defineComponent({
         padding: .05em;
     }
     .title {
+        margin-top: auto;
+        margin-bottom: auto;
         margin: .5rem;
     }
     .middle {
