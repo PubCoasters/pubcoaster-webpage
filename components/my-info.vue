@@ -513,7 +513,7 @@ export default defineComponent({
         margin: 0 1em;
     }
     .delete-dialogs .header {
-        font-size: 1.5em;
+        font-size: 1.6em;
         margin: 0 1.5em;
     }
     .follower-dialog .header, .following-dialog .header, .no-follow-header, .delete-dialogs .header {
